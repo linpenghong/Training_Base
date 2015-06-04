@@ -1,0 +1,8 @@
+0 ... beginning of the current line
+$ ... end of the current line
+
+b ... move backward by word 
+B ... move backward by word, not counting punctuation 
+
+w ... move forward by word 
+W ... move forward by word, not counting punctuation

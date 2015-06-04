@@ -1,0 +1,7 @@
+a ... append right at the cursor 
+A ... append the current line
+
+cw ... change to the end of a word
+cb ... change backward a word
+c$ ... change to the end of line
+c0 ... change to the beginning of line
