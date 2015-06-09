@@ -1,5 +1,6 @@
 #include <iostream>
 #include <complex>
+#include <cmath>
 
 #include "mkl.h"
 
@@ -50,7 +51,7 @@ int main(int argc, char* argv[])
     std::cout << "Compute a Vector-Scalar Product and Adds the Result to a Vector" << std::endl;
     cblas_saxpy(n, 2.0, sx, 1, sy, 1);
     displayVector(n, sy);
-    complex ratio(2.0, 0);
+    complex ratio(2.0, -1.0);
     cblas_caxpy(n, &ratio, cx, 1, cy, 1);
     displayVector(n, cy);
 
@@ -78,10 +79,66 @@ int main(int argc, char* argv[])
     std::cout << "Euclidean Norm of Single Precision Complex Vector: "
               << cblas_scnrm2(n, cx, 1) << std::endl;
 
+    std::cout << "sx = " << std::endl;
+    displayVector(n, sx);
+    std::cout << "sy = " << std::endl;
+    displayVector(n, sy);
+
+    float* nsx = new float[n];
+    float* nsy = new float[n];
+    cblas_scopy(n, sx, 1, nsx, 1);
+    cblas_scopy(n, sy, 1, nsy, 1);
+
+    std::cout << "Perform Rotation of Points in the Plane" << std::endl;
+    cblas_srot(n, nsx, 1, nsy, 1, sin(0.5), cos(0.5));
+    std::cout << "nsx = " << std::endl;
+    displayVector(n, nsx);
+    std::cout << "nsy = " << std::endl;
+    displayVector(n, nsy);
+
+    std::cout << "sx = " << std::endl;
+    displayVector(n, sx);
+    std::cout << "sy = " << std::endl;
+    displayVector(n, sy);
+    std::cout << "Computes the PARAMETERS of a Givens Rotation" << std::endl;
+    cblas_srotg(sx, sy, nsx, nsy);
+    std::cout << "nsx = " << std::endl;
+    displayVector(n, nsx);
+    std::cout << "nsy = " << std::endl;
+    displayVector(n, nsy);
+
+    std::cout << "Compute the Product of a Vector by a Scalar" << std::endl;
+    cblas_sscal(n, 2, sx, 1);
+    cblas_cscal(n, &ratio, cx, 1);
+    displayVector(n, sx);
+    displayVector(n, cx);
+
+    std::cout << "sx = " << std::endl;
+    displayVector(n, sx);
+    std::cout << "sy = " << std::endl;
+    displayVector(n, sy);
+    std::cout << "Swaps a Vector with Another Vector" << std::endl;
+    cblas_sswap(n, sx, 1, sy, 1);
+    std::cout << "sx = " << std::endl;
+    displayVector(n, sx);
+    std::cout << "sy = " << std::endl;
+    displayVector(n, sy);
+
+    // isamax -> i : index ; s : single prcesion real ; a : absolute
+    std::cout << "The Index of the Element with Maximum Absolute Value: "
+              << cblas_isamax(n, sx, 1)
+              << std::endl;
+    std::cout << "The Index of the Element with Minimum Absolute Value: "
+              << cblas_isamin(n, sx, 1)
+              << std::endl;
+
     delete[] sx;
     delete[] cx;
     delete[] sy;
     delete[] cy;
+
+    delete[] nsx;
+    delete[] nsy;
 
     return 0;
 }
