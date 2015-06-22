@@ -1,22 +1,35 @@
 # @configure_input@
 
 # Package-specific substituion variables
-package = @PACKAGE_NAME@
-version = @PACKAGE_VERSION@
-tarname = @PACKAGE_TARNAME@
-distdir = ${tarname}-${version}
+package=@PACKAGE_NAME@
+version=@PACKAGE_VERSION@
+tarname=@PACKAGE_TARNAME@
+distdir=${tarname}-${version}
 
 # Prefix-specific substituion variables
-prefix = @prefix@
-exec_prefix = @exec_prefix@
-bindir = @bindir@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+bindir=@bindir@
 
-CFLAGS ?= -g -O0
+# VPATH-sepecific substituion variables
+srcdir=@srcdir@
+VPATH=@srcdir@
+
+# Tool-specific subsitution variables
+CC=@CC@
+DEFS=@DEFS@
+LIBS=@LIBS@
+CFLAGS=@CFLAGS@
+CPPFLAGS=@CPPFLAGS@
+INSTALL=@INSTALL@
+INSTALL_DATA=@INSTALL_DATA@
+INSTALL_PROGRAM=@INSTALL_PROGRAM@
+INSTALL_SCRIPT=@INSTALL_SCRIPT@
 
 all : jupiter
 
 jupiter : main.c
-	${CC} ${CPPFLAGS} ${CFLAGS} -o $@ main.c
+	${CC} ${CFLAGS} ${CPPFLAGS} -I . -I ${srcdir} -I .. -o $@ main.c ${LIBS}
 
 clean :
 	-rm jupiter
@@ -28,9 +41,9 @@ check : all
 install :
 	# "install" is a shell script provided by UNIX
 	# "install -d" is used to create a directory
-	install -d ${DESTDIR}${bindir}
+	${INSTALL} -d ${DESTDIR}${bindir}
 	# "install -m" is used to set up alternate mode
-	install -m 0755 jupiter ${DESTDIR}${bindir}
+	${INSTALL_PROGRAM} -m 0755 jupiter ${DESTDIR}${bindir}
 
 uninstall :
 	-rm ${DESTDIR}${bindir}/jupiter

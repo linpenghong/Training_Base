@@ -1,15 +1,19 @@
 # Makefile.  Generated from Makefile.in by configure.
 
 # Package-specific subsitution variables
-package = Jupiter
-version = 1.0
-tarname = jupiter
-distdir = ${tarname}-${version}
+package=Jupiter
+version=1.0
+tarname=jupiter
+distdir=${tarname}-${version}
 
 # Prefix-specific subsitution variables
-prefix = /usr/local
-exec_prefix = ${prefix}
-bindir = ${exec_prefix}/bin
+prefix=/usr/local
+exec_prefix=${prefix}
+bindir=${exec_prefix}/bin
+
+# VPATH-specific subsitution variables
+srcdir=.
+
 
 all clean check install uninstall jupiter :
 	cd src && $(MAKE) $@
@@ -44,11 +48,13 @@ ${distdir}.tar.gz : ${distdir}
 
 ${distdir} : FORCE
 	mkdir -p ${distdir}/src
-	cp configure.ac ${distdir}
-	cp configure ${distdir}
-	cp Makefile ${distdir}
-	cp src/Makefile ${distdir}/src
-	cp src/main.c ${distdir}/src
+	cp ${srcdir}/configure.ac ${distdir}
+	cp ${srcdir}/configure ${distdir}
+	cp ${srcdir}/config.h.in ${distdir}
+	cp ${srcdir}/install-sh ${distdir}
+	cp ${srcdir}/Makefile.in ${distdir}
+	cp ${srcdir}/src/Makefile.in ${distdir}/src
+	cp ${srcdir}/src/main.c ${distdir}/src
 
 FORCE :
 	-rm ${distdir}.tar.gz >/dev/null 2>&1
