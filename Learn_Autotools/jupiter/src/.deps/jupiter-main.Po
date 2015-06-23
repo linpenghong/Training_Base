@@ -1,0 +1,3 @@
+jupiter-main.o: main.c ../common/jupcommon.h
+
+../common/jupcommon.h:
