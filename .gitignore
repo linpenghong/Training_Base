@@ -1,3 +1,6 @@
 Learn_Eigen3/Eigen3/*
 Learn_GNU_Make/*
 *.exe
+*~
+*.un
+*.un~
