@@ -1,5 +1,5 @@
 from pylab import *
-from mpl_toolkits.mplot3d import *
+from mayavi import mlab
 
 dphi = pi / 250
 dtheta = pi / 250
@@ -23,7 +23,5 @@ x = r * sin(theta) * cos(phi)
 y = r * sin(theta) * cos(phi)
 z = r * cos(theta)
 
-fig = figure()
-ax = fig.add_subplot(111, projection = '3d')
-ax.scatter(x, y, z, c = sqrt(x ** 2 + y ** 2 + z ** 2), cmap = cm.coolwarm)
-show()
+s = mlab.mesh(x, y, z)
+s.show()
