@@ -6,7 +6,7 @@ all : ${TARGETS}
 coarseFine: coarseFine.cpp chealpix.c
 	${CC} $^ -o $@
 
-basic : test.cpp chealpix.c
+basic : basic.cpp chealpix.c
 	${CC} $^ -o $@
 
 clean :
