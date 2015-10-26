@@ -1,7 +1,13 @@
-CC=g++
+CC = g++
+TARGETS = coarseFine basic
 
-test : test.cpp chealpix.c
+all : ${TARGETS}
+
+coarseFine: coarseFine.cpp chealpix.c
+	${CC} $^ -o $@
+
+basic : test.cpp chealpix.c
 	${CC} $^ -o $@
 
 clean :
-	rm -rf test
+	rm -rf ${TARGETS}
