@@ -41,4 +41,17 @@ int main()
     std::cout << "****** ang2pix ******" << std::endl;
     ang2pix_ring(nside, theta, phi, &ipring);
     std::cout << "ipring = " << ipring << std::endl;
+
+    std::cout << "****** vec2pix ******" << std::endl;
+    vec2pix_ring(nside, vec, &ipring);
+    std::cout << "ipring = " << ipring << std::endl;
+
+    std::cout << "****** ring2nest ******" << std::endl;
+    long ipnest;
+    ring2nest(nside, ipring, &ipnest);
+    std::cout << "ipnest = " << ipnest << std::endl;
+
+    std::cout << "****** nest2ring ******" << std::endl;
+    nest2ring(nside, ipnest, &ipring);
+    std::cout << "ipring = " << ipring << std::endl;
 }
