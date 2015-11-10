@@ -1,5 +1,5 @@
 CC = gcc
 CFLAGS = -Wall
 
-pthreads_matrix : pthreads_matrix.c
+pthreads_message : pthreads_message.c
 	${CC} -g ${CFLAGS} -o $@ $^ -lpthread
