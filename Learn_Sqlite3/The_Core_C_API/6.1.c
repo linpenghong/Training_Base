@@ -42,6 +42,8 @@ int main(int argc, char* argv[])
             fprintf(stderr, "SQL error: %s\n", zErr);
             sqlite3_free(zErr);
         }
+
+        return 1;
     }
 
     sqlite3_close(db);

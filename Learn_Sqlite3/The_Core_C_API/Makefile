@@ -12,4 +12,4 @@ $(OBJS) : %.exe : %.c
 	$(CC) $(CFLAG0) $(CFLAG1) -o $@ $<
 
 clean :
-	rm -f *.exe
+	rm -f *.exe *.db
