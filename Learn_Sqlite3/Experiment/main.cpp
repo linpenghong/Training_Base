@@ -6,14 +6,17 @@
 
 int main()
 {
-    Experiment exp("test.db");
+    Experiment exp;
+    exp.createTableParticles();
 
-    char groupName[256];
+    char particleName[256];
     for (int i = 0; i < N; i++)
     {
-        sprintf(groupName, "group%d", i);
-        exp.appendGroup(groupName);
+        sprintf(particleName, "%d", i);
+        exp.appendParticle(particleName, i, i);
     }
+
+    exp.saveDatabase("save1.db");
 
     return 0;
 }
