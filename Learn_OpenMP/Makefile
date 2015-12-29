@@ -1,6 +1,6 @@
-CC = mpic++
+CC = g++
 
-CFLAG0 = -O3
+CFLAG0 = -O3 -lgomp
 
 HelloWorld.exe : HelloWorld.cpp
 	$(CC) $(CFLAG0) -o $@ $<

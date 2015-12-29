@@ -18,6 +18,8 @@ class ApplyFoo
 
     public:
 
+        // the blocked_range<T> is a template class provided by the library
+        // it describes a one-dimensional iteration space over type T
         void operator()(const blocked_range<size_t>& r) const
         {
             float* a = my_a;
@@ -25,6 +27,7 @@ class ApplyFoo
                 foo(a[i]);
         }
 
+        // a constructor
         ApplyFoo(float a[]) : my_a(a) {}
 };
 
