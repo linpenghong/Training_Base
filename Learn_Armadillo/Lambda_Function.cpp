@@ -33,5 +33,24 @@ int main()
 
     cout << C << endl;
 
+    cout << "****** each_col & each_row ******" << endl;
+
+    mat X = ones<mat>(6, 5);
+    vec v = linspace<vec>(10, 15, 6);
+    cout << X << endl;
+    cout << v << endl;
+
+    X.each_col() += v;
+    cout << X << endl;
+    mat Y = X.each_col() + v;
+    cout << Y << endl;
+    
+    // substract v from columns 0 through to 3 in X
+    X.cols(0, 3).each_col() -= v;
+    cout << X << endl;
+
+    // lambda function of each_col
+    X.each_col([](vec& a){ a.print(); });
+
     return 0;
 }
