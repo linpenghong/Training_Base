@@ -6,13 +6,10 @@ using namespace arma;
 
 int main()
 {
-    mat A = eye<mat>(5, 5);
+    mat A = randu<mat>(5, 5);
     cout << A << endl;
 
-    vec v = linspace<vec>(10, 20, 5);
-    cout << v << endl;
-
-    mat B = ones<mat>(5, 6);
+    mat B = clamp(A, 0.2, 0.8);
     cout << B << endl;
 
     return 0;
