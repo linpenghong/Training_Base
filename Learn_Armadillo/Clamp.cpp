@@ -12,5 +12,11 @@ int main()
     mat B = clamp(A, 0.2, 0.8);
     cout << B << endl;
 
+    mat C = clamp(A, A.min(), 0.8);
+    cout << C << endl;
+
+    mat D = clamp(A, 0.2, A.max());
+    cout << D << endl;
+
     return 0;
 }
