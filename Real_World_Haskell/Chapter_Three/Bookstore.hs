@@ -19,3 +19,14 @@ data BillingInfo = CreditCard CardNumber CardHolder Address
                  | CashOnDelivery
                  | Invoice CustomerID
                  deriving (Show)
+
+-- use pattern mataching
+bookID (Book id _ _) = id
+bookTitle (Book _ title _) = title
+bookAuthors (Book _ _ authors) = authors
+
+data Customer = Customer { customerID :: CustomerID,
+                           customerName :: String,
+                           customerAddress :: Address } deriving (Show)
+
+customer1 = Customer 271828 "J.R. Hacker" ["235 Syntax Ct", "USA"]
