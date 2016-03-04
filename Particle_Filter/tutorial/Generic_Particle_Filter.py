@@ -5,7 +5,7 @@ from scipy.stats import norm
 
 K = 20
 
-N = 100
+N = 10
 
 NT = 30
 
@@ -21,6 +21,8 @@ x = np.random.random_sample(N)
 # Initialise Weight
 w = np.full(N, 1.0 / N)
 
+# print w * w
+
 sigma = 0.5
 
 def resample():
@@ -31,7 +33,7 @@ def resample():
     c[0] = w[0]
     for i in range(1, N):
         c[i] = c[i - 1] + w[i]
-    print c
+    # print c
     u[0] = random.uniform(0, 1.0 / N)
     for i in range(N):
         u[i] = u[0] + 1.0 / N * i
@@ -46,11 +48,13 @@ def resample():
 for k in range(K):
     global sigma
     # Renew Samples
-    x = [u + random.gauss(0, 100 * sigma) for u in x]
+    x = [u + random.gauss(0, N * sigma) for u in x]
     # Update Weight
     for i in range(0, N):
         w[i] *= stdnorm.pdf(x[i] - X[k])
     w /= sum(w)
+    for i in range(N):
+        print x[i], " ", w[i]
     # print estimation
     print "estimation = ", sum(w * x)
     # Calculate neff
