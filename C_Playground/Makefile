@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -std=c++11
+CXXFLAGS = -O2 -std=c++11
 
 SRCS = $(wildcard *.cpp)  
 EXES = $(patsubst %cpp, %exe, $(SRCS))  

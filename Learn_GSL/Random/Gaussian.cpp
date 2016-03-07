@@ -40,9 +40,11 @@ int main()
     for (int i = 0; i < N; i++)
     {
         gsl_ran_dir_3d(RANDR, &dir(0), &dir(1), &dir(2));
-        // cout << x << " " << y << " " << z << endl;
+        cout << dir(0) << " " << dir(1) << " " << dir(2) << endl;
+        /***
         angle(phi, theta, dir);
         cout << phi << " " << theta << endl;
+        ***/
     }
 #endif
 
