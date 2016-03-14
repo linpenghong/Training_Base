@@ -9,7 +9,11 @@ int main()
     const char cstr1[] = "ABC3";
     const char cstr2[] = "C3DE";
 
-    regex e("C\\d");
+    regex e("C[[:digit:]]", regex_constants::extended);
+    // regex e("C[[:digit:]]");
+    // regex e("C[[\\d]]+", regex_constants::extended);
+    // regex e("C[[\\d]]+", regex_constants::match_default);
+    // regex e("C[\\d]+");
 
     if (regex_match(cstr0, e))
         cout << "0: string object matched\n";
