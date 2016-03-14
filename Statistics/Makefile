@@ -10,4 +10,4 @@ all : ${EXES}
 	${CXX} ${CXXFLAGS} $< -o $@
 
 clean :
-	rm -rf *.exe
+	rm -rf *.exe *.txt
