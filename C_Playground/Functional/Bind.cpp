@@ -11,6 +11,8 @@ double my_divide(const double x,
     return x/y;
 };
 
+void foo(function<double(const double, const double)> func) {};
+
 int main()
 {
     auto fn_five = bind(my_divide, 10, 2); // 10 / 2
@@ -24,4 +26,10 @@ int main()
 
     auto fn_rounding = bind<int>(my_divide, _1, _2); // int(y / x)
     cout << fn_rounding(10, 3) << endl;
+
+    function<double(const double, const double)> fn = bind(my_divide, _1, _2);
+
+    foo(fn);
+
+    foo(bind(my_divide, _1, _2));
 }
