@@ -7,7 +7,7 @@
 #include <gsl/gsl_randist.h>
 
 #define N 10000
-#define K 50
+#define K 20 
 
 const static gsl_rng_type* RANDT = gsl_rng_default;
 static gsl_rng* RANDR = gsl_rng_alloc(RANDT);
@@ -105,7 +105,7 @@ class Particle
             // mat Q = cov(_p);
             mat22 L = chol(Q, "lower");
             for (int i = 0; i < _n; i++)
-                _p.row(i) += (L * randn<vec>(2)).t() / 3;
+                _p.row(i) += (L * randn<vec>(2)).t() / 5;
         };
 
         void resample()
@@ -155,7 +155,7 @@ double f(const double x,
     /***
     return sin(x) * sin(y / 10);
     ***/
-    return gsl_ran_bivariate_gaussian_pdf(x - 50, y - 50, 1, 2, 0.5);
+    return gsl_ran_bivariate_gaussian_pdf(x - 50, y - 50, 30, 30, 0.5);
 }
 
 int main()
@@ -168,17 +168,21 @@ int main()
         printf("True Value: \nx = %12f, y = %12f\n",
                50,
                50);
+        ***/
         printf("Estimate:   \nx = %12f, y = %12f\n",
                particle.x(),
                particle.y()); 
+        /***
         printf("Error:      \nx = %12f, y = %12f\n",
                abs(particle.x() - 50),
                abs(particle.y() - 50));
         ***/
         // cout << particle.sigma() << endl;
+        /***
         printf("%f, %f\n",
                abs(particle.x() - 50),
                abs(particle.y() - 50));
+               ***/
 
         double x, y;
         for (int j = 0; j < particle.n(); j++)
@@ -190,8 +194,11 @@ int main()
 
         // cout << particle.neff() << endl;
 
-        if (particle.neff() < N / 3)
+        if (particle.neff() < N / 2)
+        {
+            printf("RESAMPLE\n");
             particle.resample();
+        }
         else
             particle.perturb();
     }
