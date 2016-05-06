@@ -35,5 +35,10 @@ int main()
     n = m.block<2, 2>(2, 2);
     cout << n << endl << endl;
 
+    vec4 u(1, 2, 3, 4);
+    cout << u.head<2>() << endl << endl;
+    cout << u.tail<2>() << endl << endl;
+    cout << u.segment(1, 2) << endl << endl;
+
     return 0;
 }
