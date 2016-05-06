@@ -14,5 +14,12 @@ int main()
 
     vec3 v(1, 2, 3);
 
+    cout << "a * 2.5 =\n" << a * 2.5 << endl;
+
+    cout << "0.1 * v =\n" << 0.1 * v << endl;
+
+    v *= 2;
+    cout << "v *= 2, v =\n" << v << endl;
+
     return 0;
 }
