@@ -2,6 +2,12 @@
 
 using namespace Eigen;
 
+typedef Matrix<double, Dynamic, Dynamic> mat;
+typedef Matrix<double, Dynamic, 1> vec;
+
+typedef Matrix<unsigned int, Dynamic, Dynamic> umat;
+typedef Matrix<unsigned int, Dynamic, 1> uvec;
+
 typedef Matrix<double, 2, 1> vec2;
 typedef Matrix<double, 3, 1> vec3;
 typedef Matrix<double, 4, 1> vec4;
