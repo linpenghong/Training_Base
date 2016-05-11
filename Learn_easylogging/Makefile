@@ -11,3 +11,6 @@ all : ${EXES}
 
 clean :
 	rm -rf *.exe
+
+cleanLog :
+	rm -rf *.log
