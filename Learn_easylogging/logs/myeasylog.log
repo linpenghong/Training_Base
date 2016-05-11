@@ -3,3 +3,5 @@
 2016-05-11 21:10:20,892 INFO  [default] My first info log using default logger
 2016-05-11 21:18:39,339, INFO  My first info log using default logger
 2016-05-11 21:31:42,902 INFO  [default] My first info log using default logger
+2016-05-11 22:26:51,835 DEBUG [default] [humingxu@unknown-host] [int main(int, char**)] [Conf_with_Class_Multi_Logger.cpp:38] Logger [LOGGER_A] is not registered yet!
+2016-05-11 22:26:51,837 DEBUG [default] [humingxu@unknown-host] [int main(int, char**)] [Conf_with_Class_Multi_Logger.cpp:39] Logger [LOGGER_B] is not registered yet!
