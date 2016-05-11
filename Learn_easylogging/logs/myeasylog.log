@@ -1,0 +1,4 @@
+2016-05-11 20:55:47,366 INFO  [default] My first info log using default logger
+2016-05-11 20:58:06,013 INFO  [default] My first info log using default logger
+2016-05-11 21:10:20,892 INFO  [default] My first info log using default logger
+2016-05-11 21:18:39,339, INFO  My first info log using default logger
