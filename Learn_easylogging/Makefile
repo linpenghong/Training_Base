@@ -1,4 +1,4 @@
-CXX = g++
+CXX = mpicxx
 CXXFLAGS = -O2 -I ./easylogging -std=c++11
 
 SRCS = $(wildcard *.cpp)  
