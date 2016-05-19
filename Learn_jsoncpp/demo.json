@@ -1,0 +1,11 @@
+{
+   "achievement" : [ "ach1", "ach2", "ach3" ],
+   "age" : 23,
+   "name" : "Mike King",
+   "partern" : {
+      "partern_sex_is_male" : false,
+      "partner_age" : 21,
+      "partner_name" : "Galatea"
+   },
+   "sex_is_male" : true
+}
