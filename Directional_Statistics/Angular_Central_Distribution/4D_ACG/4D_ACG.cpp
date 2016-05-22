@@ -9,67 +9,61 @@ using namespace std;
 
 #define N 500
 
-void inferenceACG(mat22& dst,
-                  const mat22& src,
-                  const double X[],
-                  const double Y[])
+mat44 inferenceACG(const mat44& m,
+                   const mat& quaternion)
 {
-    mat22 result = mat22::Zero();
+    mat44 result = mat44::Zero();
 
     double nf = 0;
 
     for (int i = 0; i < N; i++)
     {
-        mat22 m;
-        m(0, 0) = X[i] * X[i];
-        m(0, 1) = X[i] * Y[i];
-        m(1, 0) = X[i] * Y[i];
-        m(1, 1) = Y[i] * Y[i];
+        vec4 v = quaternion.row(i).transpose();
 
-        vec2 v(X[i], Y[i]);
-        double u = v.transpose() * src.inverse() * v;
+        // tensor product
+        mat44 tensor;
+        for (int j = 0; j < 4; j++)
+            for (int k = 0; k < 4; k++)
+                tensor(j, k) = quaternion(i, j) * quaternion(i, k);
+
+        double u = v.transpose() * m.inverse() * v;
         
-        result += m / u;
-        //result += m / (v.transpose() * src.inverse() * v);
+        result += tensor / u;
         
         nf += 1.0 / u;
     }
 
-    result *= 2.0 / nf;
-    //result /= sqrt(result.determinant());
+    result *= 4.0 / nf;
 
     // make it selfadjoint
     for (int i = 1; i < result.rows(); i++)
         for (int j = 0; j < i; j++)
             result(i, j) = result(j, i);
 
-    dst = result;
+    return result;
 }
 
-void inferenceACG(mat22& mat,
-                  const double X[],
-                  const double Y[])
+mat44 inferenceACG(const mat& quaternion)
 {
-    mat22 A;
-    mat22 B = mat22::Identity();
+    mat44 A;
+    mat44 B = mat44::Identity();
 
     do
     {
         A = B;
-        inferenceACG(B, A, X, Y);
+        B = inferenceACG(A, quaternion);
     } while ((abs((A - B).array())).sum() > 0.001);
 
-    mat = A;
+    return A;
 }
 
-void sample(double X[],
-            double Y[],
+void sample(mat& quaternion,
             const char filename[],
-            const mat22& mat)
+            const mat44& m)
 {
     cout << "Performs a LLT decompostion on" << endl;
-    LLT<mat22> llt(mat);
-    mat22 L = llt.matrixL();
+    LLT<mat44> llt(m);
+    mat44 L = llt.matrixL();
 
     cout << "L matrix of:\n" << L << endl;
 
@@ -80,17 +74,19 @@ void sample(double X[],
     auto engine = get_random_engine();
     for (int i = 0; i < N; i++)
     {
-        vec2 v;
-        for (int j = 0; j < 2; j++)
+        vec4 v;
+        for (int j = 0; j < 4; j++)
             v[j] = gsl_ran_gaussian(engine, 1);
 
         v = L * v;
         v /= v.norm();
 
-        X[i] = v[0];
-        Y[i] = v[1];
+        quaternion.row(i) = v.transpose();
 
-        file << X[i] << " " << Y[i] << endl;
+        file << quaternion(i, 0) << " "
+             << quaternion(i, 1) << " "
+             << quaternion(i, 2) << " "
+             << quaternion(i, 3) << endl;
     }
 
     file.close();
@@ -100,11 +96,13 @@ int main()
 {
     cout << "Sigma" << endl;
 
-    mat22 sigma = mat22::Identity();
+    mat44 sigma = mat44::Identity();
 
+    /***
     double s0 = 1;
     double s1 = 3;
     double pho = -0.7;
+    ***/
 
     /***
     double s0 = sqrt(2);
@@ -112,45 +110,39 @@ int main()
     double pho = sqrt(3) / 2;
     ***/
 
+    /***
     sigma << s0 * s0, s0 * s1 * pho,
              s0 * s1 * pho, s1 * s1;
+             ***/
     cout << sigma << endl << endl;
 
-    double X[N];
-    double Y[N];
-
-    double x, y;
-    double n;
+    mat quaternion(N, 4);
 
     cout << "Sampling" << endl;
-    sample(X, Y, "2D_ACG.txt", sigma);
+    sample(quaternion, "4D_ACG.txt", sigma);
 
     cout << "Inference Sigma" << endl;
-    mat22 A;
-    inferenceACG(A, X, Y);
+    mat44 A = inferenceACG(quaternion);
     cout << A << endl << endl;
 
     cout << "Resampling" << endl;
-    sample(X, Y, "2D_ACG_Re.txt", A);
+    sample(quaternion, "4D_ACG_Re.txt", A);
 
     cout << "Eigenvalues and Eigenvector" << endl;
-    SelfAdjointEigenSolver<mat22> eigensolver(A);
+    SelfAdjointEigenSolver<mat44> eigensolver(A);
     cout << "Eigenvalues:\n" << eigensolver.eigenvalues() << endl;
-    mat22 P = eigensolver.eigenvectors();
+    mat44 P = eigensolver.eigenvectors();
     cout << "Columns are eigenvectors:\n" << P << endl;
 
     cout << "Swaping eigenveto matirx" << endl;
     P.col(0).swap(P.rightCols<1>());
 
     cout << "Diagonalization" << endl;
-    mat22 U = P.transpose() * A * P;
+    mat44 U = P.transpose() * A * P;
     cout << U << endl;
 
     cout << "Sampling Perturbation" << endl;
-    /***
-    U(0, 0) *= 5;
-    ***/
-    sample(X, Y, "2D_ACG_Perturb.txt", U);
+    sample(quaternion, "2D_ACG_Perturb.txt", U);
 
     return 0;
 }
