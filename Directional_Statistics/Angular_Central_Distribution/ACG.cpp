@@ -7,7 +7,7 @@
 
 using namespace std;
 
-#define N 10000
+#define N 500
 
 void inferenceACG(mat22& dst,
                   const mat22& src,
