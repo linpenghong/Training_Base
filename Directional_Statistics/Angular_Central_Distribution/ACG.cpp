@@ -16,6 +16,8 @@ void inferenceACG(mat22& dst,
 {
     mat22 result = mat22::Zero();
 
+    double nf = 0;
+
     for (int i = 0; i < N; i++)
     {
         mat22 m;
@@ -25,10 +27,21 @@ void inferenceACG(mat22& dst,
         m(1, 1) = Y[i] * Y[i];
 
         vec2 v(X[i], Y[i]);
-        result += m / (v.transpose() * src.inverse() * v);
+        double u = v.transpose() * src.inverse() * v;
+        
+        result += m / u;
+        //result += m / (v.transpose() * src.inverse() * v);
+        
+        nf += 1.0 / u;
     }
 
-    result /= sqrt(result.determinant());
+    result /= nf;
+    //result /= sqrt(result.determinant());
+
+    // make it selfadjoint
+    for (int i = 1; i < result.rows(); i++)
+        for (int j = 0; j < i; j++)
+            result(i, j) = result(j, i);
 
     dst = result;
 }
@@ -49,10 +62,42 @@ void inferenceACG(mat22& mat,
     mat = A;
 }
 
-int main()
+void sample(double X[],
+            double Y[],
+            const char filename[],
+            const mat22& mat)
 {
+    cout << "Performs a LLT decompostion on" << endl;
+    LLT<mat22> llt(mat);
+    mat22 L = llt.matrixL();
+
+    cout << "L matrix of:\n" << L << endl;
+
     ofstream file;
 
+    file.open(filename);
+
+    auto engine = get_random_engine();
+    for (int i = 0; i < N; i++)
+    {
+        vec2 v;
+        for (int j = 0; j < 2; j++)
+            v[j] = gsl_ran_gaussian(engine, 1);
+
+        v = L * v;
+        v /= v.norm();
+
+        X[i] = v[0];
+        Y[i] = v[1];
+
+        file << X[i] << " " << Y[i] << endl;
+    }
+
+    file.close();
+}
+
+int main()
+{
     cout << "Sigma" << endl;
 
     mat22 sigma = mat22::Identity();
@@ -71,24 +116,29 @@ int main()
     double x, y;
     double n;
 
-    file.open("2D_ACG.txt");
-
-    auto engine = get_random_engine();
-    for (int i = 0; i < N; i++)
-    {
-        gsl_ran_bivariate_gaussian(engine, s0, s1, pho, &x, &y);
-        n = gsl_hypot(x, y);
-        X[i] = x / n;
-        Y[i] = y / n;
-        file << X[i] << " " << Y[i] << endl;
-    }
-
-    file.close();
+    cout << "Sampling" << endl;
+    sample(X, Y, "2D_ACG.txt", sigma);
 
     cout << "Inference Sigma" << endl;
     mat22 A;
     inferenceACG(A, X, Y);
     cout << A << endl << endl;
+
+    cout << "Resampling" << endl;
+    sample(X, Y, "2D_ACG_Re.txt", A);
+
+    cout << "Eigenvalues and Eigenvector" << endl;
+    SelfAdjointEigenSolver<mat22> eigensolver(A);
+    cout << "Eigenvalues:\n" << eigensolver.eigenvalues() << endl;
+    mat22 P = eigensolver.eigenvectors();
+    cout << "Columns are eigenvectors:\n" << P << endl;
+
+    cout << "Diagonalization" << endl;
+    mat22 U = P.transpose() * A * P;
+    cout << U << endl;
+
+    cout << "Sampling Perturbation" << endl;
+    sample(X, Y, "2D_ACG_Perturb.txt", U);
 
     return 0;
 }
