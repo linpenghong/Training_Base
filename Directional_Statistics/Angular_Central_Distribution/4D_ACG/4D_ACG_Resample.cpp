@@ -8,7 +8,7 @@
 using namespace std;
 
 #define N 5000
-#define ALPHA 0.5
+#define ALPHA 0.75
 
 mat44 inferenceACG(const mat44& m,
                    const mat& quaternion)
