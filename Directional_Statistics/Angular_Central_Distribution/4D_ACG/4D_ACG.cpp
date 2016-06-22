@@ -98,7 +98,7 @@ int main()
 
     mat44 sigma = mat44::Identity();
 
-    sigma << 25, 0, 0, 0,
+    sigma << 125, 0, 0, 0,
              0, 1, 0, 0,
              0, 0, 1, 0,
              0, 0, 0, 1;

@@ -16,7 +16,8 @@ for e in ells:
     ax.add_artist(e)
     e.set_clip_box(ax.bbox)
     e.set_alpha(0.5)
-    e.set_facecolor((1, 0, 0))
+    #e.set_facecolor((1, 0, 0))
+    e.set_facecolor((0, 0, 0))
 
 ax.set_xlim(-10, 10)
 ax.set_ylim(-10, 10)
