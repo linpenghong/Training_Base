@@ -22,5 +22,8 @@ int main()
     cout << "Array m * n=\n" << m.array() * n.array() << endl;
     cout << "Element Wise Product=\n" << m.cwiseProduct(n) << endl;
 
+    n.array() = 1.0 / n.array();
+    cout << "Matrix 1 / n =\n" << n << endl;
+
     return 0;
 }
