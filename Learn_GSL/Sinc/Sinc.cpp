@@ -15,5 +15,11 @@ int main()
 
     cout << gsl_pow_2(gsl_sf_bessel_j0(M_PI * x)) << endl;
 
+    cout << gsl_sf_sinc(0.5) + gsl_sf_sinc(0.5) << endl;
+
+    cout << gsl_sf_sinc(0.3) + gsl_sf_sinc(0.7) << endl;
+
+    cout << gsl_sf_sinc(0.1) + gsl_sf_sinc(0.9) << endl;
+
     return 0;
 }
