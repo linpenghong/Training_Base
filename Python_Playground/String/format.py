@@ -12,3 +12,12 @@ print '{:0>8}'.format('189')
 
 # .2f : two decimal number float
 print '{:.2f}'.format(321.33345)
+
+print '{2}, {1}, {0}'.format(*'abc')
+print '{0}{1}{0}'.format('abra', 'cad')
+
+
+# Accessing Arguments by Name
+
+print 'Coordinates: {latitude}, {longitude}'.format(latitude = '37.24N', \
+                                                    longitude = '-115.81W')
